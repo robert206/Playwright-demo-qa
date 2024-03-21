@@ -13,7 +13,7 @@ test("Init page", async ({ page }) => {
     console.log(process.env.BASE_URL);
 });
 
-test.only('Sauce login page', async({page})=> {
+test('Sauce login page', async({page})=> {
     const user = page.locator("#user-name");
     const password = page.locator("#password");
     const loginBtn = page.locator("#login-button");

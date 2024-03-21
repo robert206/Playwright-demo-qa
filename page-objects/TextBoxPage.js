@@ -27,19 +27,11 @@ class TextBoxPage {
     }
 
     async verifyUserDetails() {
-        let nameText = await this.name.textContent().split(":")[1];
-        let emailText = await this.email.textContent().split(":")[1];
-        let currentAddressText = await this.currentAddress.textContent().split(":")[1];
-        let permanentAddressText = await this.permanentAddress.textContent().split(":")[1];
-        console.log(nameText);
-        console.log(emailText);
-        console.log(currentAddressText);
-        console.log(permanentAddressText);
-
-        /*await expect(this.name).toHaveText("Robert Leskovsek");
-        await expect(this.email).toHaveText("robert.leskovsek@gmail.com");
-        await expect (this.currentAddress).toHaveText("Podvelka 36");
-        await expect(this.permanentAddress).toHaveText("Podvelka 36");*/
+        //var nameText = await this.name.textContent();
+        await expect(this.name).toHaveText("Name:" + "Robert Leskovsek");
+        await expect(this.email).toHaveText("Email:" + "robert.leskovsek@gmail.com");
+        await expect(this.currentAddress).toHaveText("Current Address :" + "Podvelka 36");
+        await expect(this.permanentAddress).toHaveText("Permananet Address :" + "Podvelka 36");
     }
 
 }

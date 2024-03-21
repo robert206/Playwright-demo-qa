@@ -1,6 +1,8 @@
-import {expect} from "@playwright/test";
+import {expect,test} from "@playwright/test";
+
 
 export class HomePage {
+ 
     constructor(page) {
         this.page = page;
         this.Elements = page.getByRole('heading', { name: 'Elements' });
@@ -11,5 +13,5 @@ export class HomePage {
         this.BookStore = page.getByRole('heading', { name: 'Book Store Application' });
     }
 }
-//module.exports = { HomePage };
+module.exports = { HomePage };
 
