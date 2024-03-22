@@ -1,0 +1,38 @@
+{
+    "user1": {
+        "firstName" : "Mirko",
+        "lastName" : "Radirko",
+        "age" : "102",
+        "email" : "user1@mail.com",
+        "salary" : "1000",
+        "department" : "Hisnik"
+    },
+
+    "user2" : {
+        "firstName" : "Jure",
+        "lastName" : "Franko",
+        "age" : "44",
+        "email" : "user2@mail.com",
+        "salary" : "2100",
+        "department" : "Smucar"
+    },
+
+    "user3": {
+        "firstName" : "Bode",
+        "lastName" : "Miller",
+        "age" : "43",
+        "email" : "user3@mail.com",
+        "salary" : "3500",
+        "department" : "drmr"
+    },
+
+    "user4": {
+        "firstName" : "Bojan",
+        "lastName" : "Krizaj",
+        "age" : "67",
+        "email" : "user4@mail.com",
+        "salary" : "3400",
+        "department" : "Kmet"
+    }
+
+}
