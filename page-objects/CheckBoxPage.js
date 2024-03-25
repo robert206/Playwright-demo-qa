@@ -22,9 +22,6 @@ class CheckBoxPage {
         //check if nth element has expected text
         const actualFolderName = await this.checkBoxFolders.nth(index).textContent();
         expect (actualFolderName).toEqual(folderName);
-
-        console.log('Prvi element',await this.checkBoxFolders.first().textContent());
-        console.log('velikost je ',await this.checkBoxFolders.count());
     }
 
 }

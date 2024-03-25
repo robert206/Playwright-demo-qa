@@ -38,7 +38,7 @@ test ('0 2 CheckBox page', async({page, homePage, checkBoxPage}) => {
     
 });
 
-test.only ('0 3 RadioButton page', async({page, homePage, radioBtnPage}) => {
+test ('0 3 RadioButton page', async({page, homePage, radioBtnPage}) => {
     // go to radio btn page
     await homePage.Elements.click();
     await radioBtnPage.radioBtnLink.click();
@@ -58,6 +58,22 @@ test.only ('0 3 RadioButton page', async({page, homePage, radioBtnPage}) => {
 
     //no btn
     await expect (radioBtnPage.radioBtnNo).toBeVisible; 
+
+});
+
+test.only ('0 4 WebTables page', async({page, homePage, webTablesPage}) => {
+    await homePage.Elements.click();
+    await webTablesPage.webTableLink.click();
+    await expect(webTablesPage.webTableTitle).toBeVisible();
+    await expect(webTablesPage.webTableAddBtn).toBeVisible();
+    await expect(webTablesPage.webTableJumpToPage).toBeVisible();
+
+    //table rows per page
+    await webTablesPage.checkRowsPerPage();
+    //await webTablesPage.webTableRowsPerPage.nth(0).click();
+    await page.locator(".select-wrap > select:nth-child(1) > option:nth-child(2)").click();
+    await webTablesPage.webTableRowsPerPage.nth(0).click();
+    await page.pause();
 
 });
 
