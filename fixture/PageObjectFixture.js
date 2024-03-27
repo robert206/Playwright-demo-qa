@@ -4,6 +4,7 @@ import { TextBoxPage } from '../page-objects/TextBoxPage.js';
 import { CheckBoxPage } from '../page-objects/CheckBoxPage.js';
 import { RadioBtnPage } from '../page-objects/RadioBtnPage.js';
 import { WebTablesPage } from '../page-objects/WebTablesPage.js';
+import { ButtonsPage } from '../page-objects/ButtonsPage.js';
 
 
 //to je kot pageobject ki vse pageobjecte ostale zajema in potem ne rabiš v vsakem testu posebej klicat newNekPage,
@@ -35,6 +36,10 @@ export const test = base.extend({
 
     webTablesPage: async ({page},use) => {
         await use (new WebTablesPage(page));
+    },
+
+    buttonsPage : async ({page}, use) => {
+        await use (new ButtonsPage(page));
     }
 
 

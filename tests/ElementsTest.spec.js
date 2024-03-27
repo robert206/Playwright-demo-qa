@@ -1,9 +1,10 @@
 // @ts-check
 // @ts-ignore
 const {test, expect} = require('../fixture/PageObjectFixture');
-//const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.json")));
+const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
 
 test('0 1 TextBox page', async({page,homePage,textBoxPage}) => {
+
     await homePage.Elements.click();
     await expect(textBoxPage.textBoxLink).toBeVisible();
     await textBoxPage.textBoxLink.click();
@@ -18,6 +19,7 @@ test('0 1 TextBox page', async({page,homePage,textBoxPage}) => {
 });
 
 test ('0 2 CheckBox page', async({page, homePage, checkBoxPage}) => {
+
     await homePage.Elements.click();
     await expect(checkBoxPage.checkBoxLink).toBeVisible();
     await checkBoxPage.checkBoxLink.click();
@@ -39,6 +41,7 @@ test ('0 2 CheckBox page', async({page, homePage, checkBoxPage}) => {
 });
 
 test ('0 3 RadioButton page', async({page, homePage, radioBtnPage}) => {
+
     // go to radio btn page
     await homePage.Elements.click();
     await radioBtnPage.radioBtnLink.click();
@@ -61,7 +64,8 @@ test ('0 3 RadioButton page', async({page, homePage, radioBtnPage}) => {
 
 });
 
-test.only ('0 4 WebTables page', async({page, homePage, webTablesPage}) => {
+test ('0 4 WebTables page', async({page, homePage, webTablesPage}) => {
+
     await homePage.Elements.click();
     await webTablesPage.webTableLink.click();
     await expect(webTablesPage.webTableTitle).toBeVisible();
@@ -70,11 +74,31 @@ test.only ('0 4 WebTables page', async({page, homePage, webTablesPage}) => {
 
     //table rows per page
     await webTablesPage.checkRowsPerPage();
-    //await webTablesPage.webTableRowsPerPage.nth(0).click();
-    await page.locator(".select-wrap > select:nth-child(1) > option:nth-child(2)").click();
-    await webTablesPage.webTableRowsPerPage.nth(0).click();
-    await page.pause();
+    await webTablesPage.populateUsers();
 
+    //switch to 5 rows per page
+    await page.selectOption('[aria-label="rows per page"]','5');// select 5 rows per
+    //click next btn to go to page2 after new users were added
+    await webTablesPage.clickNextBtn();
+    //check if you are on second page
+    await expect (page.getByRole('gridcell', { name: "Bojan", exact: true })).toBeVisible();
+    //go back to first page
+    await webTablesPage.clickPreviousBtn();
+    //check if im on first page
+    await expect (page.getByRole('gridcell', { name: "Cierra", exact: true })).toBeVisible();
 });
+
+
+test.only ('0 5 Buttons page', async({page,homePage,buttonsPage}) => {
+    await homePage.Elements.click();
+    await buttonsPage.buttonsPageLink.click();
+    await expect(page).toHaveURL('https://demoqa.com/buttons');
+
+    await buttonsPage.clickDoubleClickBtn();
+    await buttonsPage.rightClick();
+    await buttonsPage.dynamicClick();
+});
+
+
 
 

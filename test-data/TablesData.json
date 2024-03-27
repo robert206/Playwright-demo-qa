@@ -1,14 +1,16 @@
-{
-    "user1": {
+[
+    {
+        "id" : 1,
         "firstName" : "Mirko",
         "lastName" : "Radirko",
-        "age" : "102",
+        "age" : "33",
         "email" : "user1@mail.com",
         "salary" : "1000",
         "department" : "Hisnik"
     },
 
-    "user2" : {
+    {
+        "id" : 2,
         "firstName" : "Jure",
         "lastName" : "Franko",
         "age" : "44",
@@ -17,7 +19,8 @@
         "department" : "Smucar"
     },
 
-    "user3": {
+    {
+        "id" : 3,
         "firstName" : "Bode",
         "lastName" : "Miller",
         "age" : "43",
@@ -26,7 +29,8 @@
         "department" : "drmr"
     },
 
-    "user4": {
+    {
+        "id" : 4,
         "firstName" : "Bojan",
         "lastName" : "Krizaj",
         "age" : "67",
@@ -35,4 +39,4 @@
         "department" : "Kmet"
     }
 
-}
+]
