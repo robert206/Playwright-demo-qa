@@ -30,4 +30,4 @@ class ButtonsPage {
     }
 }
 
-module.exports= {ButtonsPage};
+module.exports = {ButtonsPage};

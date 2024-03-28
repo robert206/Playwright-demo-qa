@@ -89,7 +89,7 @@ test ('0 4 WebTables page', async({page, homePage, webTablesPage}) => {
 });
 
 
-test.only ('0 5 Buttons page', async({page,homePage,buttonsPage}) => {
+test ('0 5 Buttons page', async({page,homePage,buttonsPage}) => {
     await homePage.Elements.click();
     await buttonsPage.buttonsPageLink.click();
     await expect(page).toHaveURL('https://demoqa.com/buttons');
@@ -97,6 +97,24 @@ test.only ('0 5 Buttons page', async({page,homePage,buttonsPage}) => {
     await buttonsPage.clickDoubleClickBtn();
     await buttonsPage.rightClick();
     await buttonsPage.dynamicClick();
+});
+
+test.only ('0 6 Links page', async({homePage,linksPage}) => {
+    await homePage.Elements.click();
+    await linksPage.linksPageLink.click();
+    await linksPage.openNewTab();
+
+    //await linksPage.linksCreatedLink.click();
+    let apiCodes = [];
+    apiCodes = linksPage.checkApiStatus(linksPage.linksCreatedLink);
+    for (const code of apiCodes) {
+        console.log(code);
+    }
+    //expect(apiCode).toEqual(201);
+    //await expect (linksPage.linksResponse).toHaveText('201 and status text Created');
+
+    
+
 });
 
 
