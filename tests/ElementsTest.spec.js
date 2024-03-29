@@ -99,23 +99,50 @@ test ('0 5 Buttons page', async({page,homePage,buttonsPage}) => {
     await buttonsPage.dynamicClick();
 });
 
-test.only ('0 6 Links page', async({homePage,linksPage}) => {
+test ('0 6 Links page', async({homePage,linksPage}) => {
     await homePage.Elements.click();
     await linksPage.linksPageLink.click();
     await linksPage.openNewTab();
+    await linksPage.checkApiStatus("201");
+    await linksPage.checkApiStatus("204");
+    await linksPage.checkApiStatus("301");
+    await linksPage.checkApiStatus("400");
+    await linksPage.checkApiStatus("401");
+    await linksPage.checkApiStatus("404");
+});
 
-    //await linksPage.linksCreatedLink.click();
-    let apiCodes = [];
-    apiCodes = linksPage.checkApiStatus(linksPage.linksCreatedLink);
-    for (const code of apiCodes) {
-        console.log(code);
-    }
-    //expect(apiCode).toEqual(201);
-    //await expect (linksPage.linksResponse).toHaveText('201 and status text Created');
+test ('0 7 Download and Upload of file', async ({page,homePage}) => {
+    await homePage.Elements.click();
 
-    
+    await page.getByText ('Upload and Download', { exact: true }).click();
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('#downloadButton').click();
+    const download = await downloadPromise;
+
+    // Wait for the download process to complete and save the downloaded file somewhere.
+    await download.saveAs('D:/' + download.suggestedFilename());
+    expect(download.suggestedFilename()).toBe("sampleFile.jpeg");
+    await page.pause();
+
+    //upload 
+    //const fileChooserPromise = page.waitForEvent('filechooser');
+    //await page.getByLabel('Select a file').click();
+    //await page.locator('#uploadFile"]').setInputFiles('fixture.pdf');
+    //await page.getByLabel('Select a file').setInputFiles('ScriptHookV');
+    //await expect(page.locator('#uploadedFilePath')).hasText('C:\fakepath\ScriptHookV');
 
 });
+
+test ('1 1 Practice Forms', async ({page,homePage,formsPage}) => {
+    await homePage.Forms.click();
+    await formsPage.formsPageLink.click();
+    await expect(page.url()).toEqual('https://demoqa.com/automation-practice-form');
+
+
+});
+
+
+
 
 
 

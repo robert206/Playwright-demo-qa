@@ -30,20 +30,72 @@ class LinksPage {
     }
 
 
-    async checkApiStatus (link) {
-        let apiResponseCodes = [];
-        //let apiResponseCode;
-        await link.click();
-        //monitor api response
-        await this.page.on('response', response => {
-            //console.log('>>', response.status(), response.statusText()), //
-            //apiResponseCode = response.status();
-            //console.log (apiResponseCode);
-            apiResponseCodes.push(response.status()) //add response to array
-        });
-        return apiResponseCodes;
-            //await expect(page).toHaveText('#linkResponse', "201 and status text Created");
-            //expect(apiResponses).toContain(201); // confirm API sent the expected response
+    async checkApiStatus (code) {
+        let apiResponseCodes = []
+        switch (code) {
+            case "201":
+                await this.linksCreatedLink.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(201);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 201 and status text Created');
+                break;
+
+            case "204":
+                await this.linksNoContentLink.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(204);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 204 and status text No Content');
+                break;
+
+            case "301":
+                await this.linksMoved.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(301);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 301 and status text Moved Permanently');
+                break;
+
+            case "400":
+                await this.linksBadRequest.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(400);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 400 and status text Bad Request');
+                break;
+
+            case "401":
+                await this.linksUnath.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(401);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 401 and status text Unauthorized');
+                break;
+
+            case "404":
+                await this.linksInvalid.click();
+                await this.page.on('response', response => {
+                    console.log('>>', response.status(), response.statusText())
+                    apiResponseCodes.push(response.status())
+                    expect(apiResponseCodes).toContain(404);
+                });
+                await expect(this.linksResponse).toHaveText('Link has responded with staus 404 and status text Not Found');
+                break;
+    
+            default:
+                console.log('Unknown option for api response');
+        }
     }
 
 

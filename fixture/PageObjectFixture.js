@@ -6,6 +6,7 @@ import { RadioBtnPage } from '../page-objects/RadioBtnPage.js';
 import { WebTablesPage } from '../page-objects/WebTablesPage.js';
 import { ButtonsPage } from '../page-objects/ButtonsPage.js';
 import {LinksPage} from '../page-objects/LinksPage.js';
+import {FormsPage} from '../page-objects/FormsPage.js';
 
 
 //to je kot pageobject ki vse pageobjecte ostale zajema in potem ne rabiš v vsakem testu posebej klicat newNekPage,
@@ -19,7 +20,8 @@ export const test = base.extend({
     }, {auto:true}], */
 
     homePage: async ({page},use) => {
-        await page.goto('https://demoqa.com/');
+        await page.
+        goto('https://demoqa.com/');
         await use(new HomePage(page));
     },
 
@@ -45,6 +47,10 @@ export const test = base.extend({
 
     linksPage : async ({page}, use) => {
         await use (new LinksPage(page));
+    },
+
+    formsPage : async ( {page}, use) => {
+        await use (new FormsPage(page));
     }
 
 
