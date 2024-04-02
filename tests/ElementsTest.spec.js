@@ -138,10 +138,40 @@ test ('1 1 Practice Forms', async ({page,homePage,formsPage}) => {
     await formsPage.formsPageLink.click();
     await expect(page.url()).toEqual('https://demoqa.com/automation-practice-form');
 
+    await formsPage.formsPageFirstName.fill('Roberto');
+    await formsPage.formsPageLastName.fill('Cecon');
+    await formsPage.formsPageEmail.fill('drek@gate.com');
+    await formsPage.formsPageGenders.last().click();
+    //await formsPage.formsPageGender1.check();
+    await formsPage.formsPageMobile.fill('0180600700');
+    await formsPage.formsPageDateOfBirth.fill('08 Jan 1980');
+    await formsPage.formsPageMobile.click();
+    await formsPage.formsPageHobbies.last().click(); //select last option in hobbies
+    await formsPage.formsPageCurrentAddress.fill('Drek 34 Fargo');
+    await formsPage.formsSubmitBtn.click();
 
+    //after submitting
+    await expect (formsPage.formsPageSubmitTitle).toHaveText('Thanks for submitting the form');
+    await expect(formsPage.formsPageSubmitTable.nth(1)).toContainText('Roberto Cecon');
 });
 
 
+test ('1 2 Alerts', async ({page,homePage,alertsPage}) => {
+    await homePage.AlertsWindows.click();
+    await alertsPage.alertsPageLink.click();
+    await alertsPage.amIOnAlertsPage();
+
+    await alertsPage.clickOnAlert1();
+    await alertsPage.clickOnAlert2();
+    //await alertsPage.confirmationMessageAlert();
+});
+
+test ('1 3 Alerts Confirmation', async ({page,homePage,alertsPage}) => {
+    await homePage.AlertsWindows.click();
+    await alertsPage.alertsPageLink.click();
+    await alertsPage.amIOnAlertsPage();
+    await alertsPage.confirmationMessageAlert();
+});
 
 
 
