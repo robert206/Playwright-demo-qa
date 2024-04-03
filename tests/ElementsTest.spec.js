@@ -23,7 +23,6 @@ test ('0 2 CheckBox page', async({page, homePage, checkBoxPage}) => {
     await homePage.Elements.click();
     await expect(checkBoxPage.checkBoxLink).toBeVisible();
     await checkBoxPage.checkBoxLink.click();
-    await page.pause();
 
     //check if im on checkbox page
     await expect(checkBoxPage.checkBoxPageTitle).toBeVisible();
@@ -122,7 +121,6 @@ test ('0 7 Download and Upload of file', async ({page,homePage}) => {
     // Wait for the download process to complete and save the downloaded file somewhere.
     await download.saveAs('D:/' + download.suggestedFilename());
     expect(download.suggestedFilename()).toBe("sampleFile.jpeg");
-    await page.pause();
 
     //upload 
     //const fileChooserPromise = page.waitForEvent('filechooser');
@@ -174,6 +172,62 @@ test ('1 3 Alerts Confirmation', async ({page,homePage,alertsPage}) => {
 });
 
 
+test ('1 4 Modal dialogs', async ({homePage,modalPage}) => {
+    await homePage.AlertsWindows.click();
+    await modalPage.modalLink.click();
+    //open small modal dialog
+    await modalPage.modalSmallModalBtn.click();
+    await expect (modalPage.modalSmallHeading).toContainText('Small Modal');
+    await expect(modalPage.modalBodyText).toContainText('very less content');
+    await modalPage.modalSmallClose.click();
+    //check if modal was closed
+    await expect( modalPage.modalSmallHeading).toHaveCount(0);
+
+    //open large modal dialog
+    await modalPage.modalLargeModalBtn.click();
+    await expect (modalPage.modalLargeHeading).toContainText('Large Modal');
+    await expect (modalPage.modalBodyText).toContainText('Lorem Ipsum');
+    await modalPage.modalLargeClose.click();
+    await expect (modalPage.modalLargeHeading).toHaveCount(0);
+});
+
+
+test ('2 1 Widgets-Accordian', async ({homePage,accordianPage}) => {
+    await homePage.Widgets.click();
+    await accordianPage.accordianLink.click();
+    await accordianPage.amIOnAccordianPage();
+    //click first accordion btn
+    await accordianPage.accordianWhatBtn.click();
+    await expect(accordianPage.accordianWhatBody).toContainText('Lorem Ipsum is simply dummy text');
+    //click second accordion
+    await accordianPage.accordianWhereBtn.click();
+    await expect(accordianPage.accordianWhereBody.nth(0)).toContainText('Richard McClintock');
+
+    //click third accordion 
+    await accordianPage.accordianWhyBtn.click();
+    await expect(accordianPage.accordianWhyBody).toContainText('normal distribution of letters');
+    
+});
+
+
+test ('2 2 Autocomplete', async ({page,homePage}) => {
+    await homePage.Widgets.click();
+    await page.locator('span.text').filter({hasText:'Auto Complete'}).click();
+    
+    await page.locator('#autoCompleteMultipleInput').fill('R');
+    await page.getByText('Purple', { exact: true }).click();
+
+    await page.locator('#autoCompleteMultipleInput').fill('w');
+    await page.getByText('Yellow', { exact: true }).click();
+
+    await page.locator('#autoCompleteSingleInput').fill('r');
+    await page.getByText('Red', { exact: true }).click();
+    
+    // check if they were added
+    await expect(page.getByText('Red')).toBeVisible();
+    await expect(page.getByText('Yellow')).toBeVisible();
+    await expect(page.getByText('Purple')).toBeVisible();
+});
 
 
 

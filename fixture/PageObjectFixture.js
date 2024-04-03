@@ -8,6 +8,8 @@ import { ButtonsPage } from '../page-objects/ButtonsPage.js';
 import {LinksPage} from '../page-objects/LinksPage.js';
 import {FormsPage} from '../page-objects/FormsPage.js';
 import { AlertsPage } from '../page-objects/AlertsPage.js';
+import { ModalPage } from '../page-objects/ModalPage.js';
+import { AccordianPage } from '../page-objects/AccordianPage.js';
 
 
 //to je kot pageobject ki vse pageobjecte ostale zajema in potem ne rabiš v vsakem testu posebej klicat newNekPage,
@@ -56,6 +58,14 @@ export const test = base.extend({
 
     alertsPage : async ( {page}, use) => {
         await use (new AlertsPage(page));
+    },
+
+    modalPage: async ( {page}, use) => {
+        await use (new ModalPage(page));
+    },
+
+    accordianPage : async ({page}, use) => {
+        await use (new AccordianPage(page));
     }
 
 });

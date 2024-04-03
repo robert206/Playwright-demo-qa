@@ -13,5 +13,6 @@ export class HomePage {
         this.BookStore = page.getByRole('heading', { name: 'Book Store Application' });
     }
 }
+
 module.exports = { HomePage };
 
