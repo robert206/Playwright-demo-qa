@@ -10,6 +10,5 @@ test('0 0 Home Page check',async ({page,homePage}) => {
     await expect(homePage.Interactions).toBeVisible();
     await expect(homePage.AlertsWindows).toBeVisible();
     await expect(homePage.BookStore).toBeVisible();
-    await page.pause();
 });
 

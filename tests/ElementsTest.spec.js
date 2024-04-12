@@ -1,6 +1,7 @@
 // @ts-check
 // @ts-ignore
 const {test, expect} = require('../fixture/PageObjectFixture');
+const { HomePage } = require('../page-objects/HomePage');
 const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
 
 test('0 1 TextBox page', async({page,homePage,textBoxPage}) => {
@@ -192,7 +193,7 @@ test ('1 4 Modal dialogs', async ({homePage,modalPage}) => {
 });
 
 
-test ('2 1 Widgets-Accordian', async ({homePage,accordianPage}) => {
+test ('2 1 Widgets-Accordian', async ({page,homePage,accordianPage}) => {
     await homePage.Widgets.click();
     await accordianPage.accordianLink.click();
     await accordianPage.amIOnAccordianPage();
@@ -228,6 +229,71 @@ test ('2 2 Autocomplete', async ({page,homePage}) => {
     await expect(page.getByText('Yellow')).toBeVisible();
     await expect(page.getByText('Purple')).toBeVisible();
 });
+
+/* test ('2 3 Sliders', async ({homePage,sliderPage}) => {
+    await homePage.Widgets.click();
+    await sliderPage.sliderPageLink.click();
+    //await page.pause();
+    //sliderPage.currentValue();
+    sliderPage.moveSlider(50);
+}); */
+
+test ('2 3 Progress bar', async ({homePage,progressBarPage}) => {
+    await homePage.Widgets.click();
+    await progressBarPage.progressPageLink.click();
+
+    let currentProgress = await progressBarPage.returnProgress();
+    await expect(currentProgress).toEqual('0');
+    await expect(progressBarPage.progressPageStartStopBtn).toHaveText('Start');
+
+    //await progressBarPage.startProgressBar(50);// useless anyway as it never stops right on the dot,only max 100 counts as valid
+    await progressBarPage.startProgressBar(100);
+});
+
+//all declared in test ,,tired of creating pages for now ..as it is for learning .I'll use approach to check attribute values here for assertions
+test ('2 4 Tabs', async ({page,homePage}) => {
+    homePage.Widgets.click();
+    await page.locator('span.text').filter({hasText:'Tabs'}).click();
+
+    const demoWhat = page.locator('#demo-tab-what')
+    await demoWhat.click();
+    await expect(demoWhat).toHaveAttribute('aria-selected','true');
+
+    const demoOrigin = page.locator ('#demo-tab-origin');
+    await demoOrigin.click();
+    await expect(demoOrigin).toHaveAttribute('aria-selected','true');
+
+    const demoUse = page.locator ('#demo-tab-use');
+    await demoUse.click();
+    await expect(demoUse).toHaveAttribute('aria-selected','true');
+
+    await expect(page.locator('#demo-tab-more')).toHaveAttribute('aria-disabled','true');
+
+});
+
+test ('2 5 Tooltips', async ({page, homePage}) => {
+    homePage.Widgets.click();
+    await page.locator('span.text').filter({hasText:'Tool tips'}).click();
+
+    const hoverBtn = page.locator ('#toolTipButton');
+    await hoverBtn.hover();
+    await expect(page.getByText('You hovered over the Button')).toBeVisible();
+
+    await page.getByText('Contrary',{exact:true}).hover();
+    await expect(page.getByText('You hovered over the Contrary')).toBeVisible();
+});
+
+
+test ('2 6 Menues', async ({page, homePage}) => {
+    homePage.Widgets.click();
+    await page.locator('span.text').filter({hasText:'Menu'}).click();
+
+    const menuItems = page.locator('#nav > li > a');
+    menuItems.nth(1).hover(); //hover over 2nd menu which has some sub items
+    #nav > li:nth-child(2) > ul > li > a
+});
+
+
 
 
 
