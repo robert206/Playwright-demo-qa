@@ -12,6 +12,10 @@ import { ModalPage } from '../page-objects/ModalPage.js';
 import { AccordianPage } from '../page-objects/AccordianPage.js';
 import { SliderPage } from '../page-objects/SliderPage.js';
 import { ProgressBarPage } from '../page-objects/ProgressBarPage.js';
+import { SelectMenuPage } from '../page-objects/SelectMenuPage.js';
+import { InteractionsPage } from '../page-objects/InteractionsPage.js';
+import { DroppablePage } from '../page-objects/DroppablePage.js';
+import { BookStorePage } from '../page-objects/BookStorePage.js';
 
 
 //to je kot pageobject ki vse pageobjecte ostale zajema in potem ne rabiš v vsakem testu posebej klicat newNekPage,
@@ -25,8 +29,7 @@ export const test = base.extend({
     }, {auto:true}], */
 
     homePage: async ({page},use) => {
-        await page.
-        goto('https://demoqa.com/');
+        await page.goto('https://demoqa.com/');
         await use(new HomePage(page));
     },
 
@@ -76,6 +79,22 @@ export const test = base.extend({
 
     progressBarPage : async ({page}, use) => {
         await use (new ProgressBarPage(page));
+    },
+
+    selectMenuPage : async ({page}, use) => {
+        await use (new SelectMenuPage(page));
+    },
+
+    interactionsPage : async ({page}, use) => {
+        await use (new InteractionsPage(page));
+    },
+
+    droppablePage : async ({page}, use) => {
+        await use (new DroppablePage(page));
+    },
+
+    bookStorePage : async ( {page}, use) => {
+        await use (new BookStorePage(page));
     }
 
 });

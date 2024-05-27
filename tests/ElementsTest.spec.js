@@ -1,5 +1,6 @@
 // @ts-check
 // @ts-ignore
+const { strict } = require('assert');
 const {test, expect} = require('../fixture/PageObjectFixture');
 const { HomePage } = require('../page-objects/HomePage');
 const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
@@ -252,7 +253,7 @@ test ('2 3 Progress bar', async ({homePage,progressBarPage}) => {
 
 //all declared in test ,,tired of creating pages for now ..as it is for learning .I'll use approach to check attribute values here for assertions
 test ('2 4 Tabs', async ({page,homePage}) => {
-    homePage.Widgets.click();
+    await homePage.Widgets.click();
     await page.locator('span.text').filter({hasText:'Tabs'}).click();
 
     const demoWhat = page.locator('#demo-tab-what')
@@ -272,7 +273,7 @@ test ('2 4 Tabs', async ({page,homePage}) => {
 });
 
 test ('2 5 Tooltips', async ({page, homePage}) => {
-    homePage.Widgets.click();
+    await homePage.Widgets.click();
     await page.locator('span.text').filter({hasText:'Tool tips'}).click();
 
     const hoverBtn = page.locator ('#toolTipButton');
@@ -284,16 +285,112 @@ test ('2 5 Tooltips', async ({page, homePage}) => {
 });
 
 
-test ('2 6 Menues', async ({page, homePage}) => {
-    homePage.Widgets.click();
-    await page.locator('span.text').filter({hasText:'Menu'}).click();
-
-    const menuItems = page.locator('#nav > li > a');
-    menuItems.nth(1).hover(); //hover over 2nd menu which has some sub items
-    #nav > li:nth-child(2) > ul > li > a
+test ('2 6 Select menu', async ({page, selectMenuPage,homePage}) => {
+    await homePage.Widgets.click();
+    await selectMenuPage.selectMenuLink.click();
+    //select menu
+    await expect(selectMenuPage.selectOption).toBeVisible();
+    await selectMenuPage.selectOption.click();
+    await expect(selectMenuPage.selectRootOption).toBeVisible();
+    await selectMenuPage.selectRootOption.click();
+    //select title one
+    await selectMenuPage.selectOne.click();
+    await selectMenuPage.selectProfesor.click();
+    await expect(selectMenuPage.selectProfesor).toBeVisible();
+    //select green color
+    await page.selectOption('#oldSelectMenu','Green');
+    //select car
+    await page.selectOption('#cars','Audi');
 });
 
 
+test ('3 0 Interactions-Sortable', async ({page,homePage,interactionsPage}) => {
+    await homePage.Interactions.click();
+    await interactionsPage.sortableLink.click();
+
+    page.waitForLoadState('domcontentloaded');
+
+    await expect(interactionsPage.sortableListElements).toHaveCount(6);
+    const sourceL = await interactionsPage.sortableListElements.nth(0);
+    const destL = await interactionsPage.sortableListElements.nth(1);
+    //await sourceL.dragTo(destL); // this official way doesnt work ..doesnt drag shit 
+    //manual way //list
+    await interactionsPage.dragAndDrop(sourceL,destL);
+    await expect(sourceL).toHaveText('Two');
+    await expect(destL).toHaveText('One');
+
+    // grid
+    await interactionsPage.sortableGrid.click();
+    await expect(interactionsPage.sortableGridElements).toHaveCount(9);
+    const sourceG = await interactionsPage.sortableGridElements.nth(0);
+    const destG = await interactionsPage.sortableGridElements.nth(5);
+    await interactionsPage.dragAndDrop(sourceG,destG);
+    //await page.pause();
+    await expect(sourceG).toHaveText('Two');
+    await expect(destG).toHaveText('One');
+});
+
+
+test ('3 1 Interactions-Selectable', async ({page,homePage,interactionsPage}) => {
+    await homePage.Interactions.click();
+    await interactionsPage.selectableLink.click();
+    page.waitForLoadState('domcontentloaded');
+    await interactionsPage.selectableList.click();
+    await expect(interactionsPage.selectableListItems).toHaveCount(4);
+    
+    // select all items in list
+    await interactionsPage.selectAllListElements(interactionsPage.selectableListItems);
+    await expect(interactionsPage.selectableListItemsSelected).toHaveCount(4); // all are selected
+    // deselect some
+    await interactionsPage.selectSingleListElement(interactionsPage.selectableListItems.nth(0));
+    await expect(interactionsPage.selectableListItemsSelected).toHaveCount(3);
+
+    //selectable grid
+    await interactionsPage.selectableGrid.click();
+    await expect(interactionsPage.selectableGridItems).toHaveCount(9);
+    //select all 
+    await interactionsPage.selectAllListElements(interactionsPage.selectableGridItems);
+    await expect(interactionsPage.selectableGridItemsSelected).toHaveCount(9);
+    //deselect some
+    await interactionsPage.selectSingleListElement(interactionsPage.selectableGridItemsSelected.nth(0));
+    await interactionsPage.selectSingleListElement(interactionsPage.selectableGridItemsSelected.nth(1));
+    await expect(interactionsPage.selectableGridItemsSelected).toHaveCount(7);
+
+    //browser.newPage({viewport: null}) i
+});
+
+
+test ('3 2 Interactions - Resizable', async ({page,homePage,interactionsPage}) => {
+    await homePage.Interactions.click();
+    await interactionsPage.resizableLink.click();
+    const resizeBtn1 = page.locator('#resizableBoxWithRestriction > span');
+    await resizeBtn1.hover();
+    await page.mouse.down();
+    await page.mouse.move(500,500);
+    await page.mouse.up();
+});
+
+
+test ('3 3 Interactions - Droppable', async ({page,homePage,droppablePage,interactionsPage}) => {
+    await homePage.Interactions.click();
+    await droppablePage.droppablePageLink.click();
+    await expect(page.url()).toEqual('https://demoqa.com/droppable');
+    //first tab
+    const source = droppablePage.droppableDragMe;
+    const dest = droppablePage.droppableDropMe.first();
+    await interactionsPage.dragAndDrop(source,dest);
+    await expect(page.getByText('Dropped!')).toBeVisible();
+
+});
+
+
+test ('4 Book Store', async ({page,homePage,bookStorePage}) => {
+    await homePage.BookStore.click();
+    await bookStorePage.loginLink.first().click();
+    await expect(page.getByText('Login in Book Store', { exact:true})).toBeVisible();
+
+    
+});
 
 
 
