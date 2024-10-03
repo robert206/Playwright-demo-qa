@@ -2,7 +2,7 @@
 // @ts-ignore
 const { strict } = require('assert');
 const {test, expect} = require('../fixture/PageObjectFixture');
-const { HomePage } = require('../page-objects/HomePage');
+//const { HomePage } = require('../page-objects/HomePage');
 const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
 
 test('0 1 TextBox page', async({page,homePage,textBoxPage}) => {
@@ -392,5 +392,16 @@ test ('4 Book Store', async ({page,homePage,bookStorePage}) => {
     
 });
 
+
+test ('API GET', async ({request, apiRequest}) => {
+    /* const resp = await request.get('https://reqres.in/api/users/2');
+    const respText = await resp.text();
+
+    await expect (resp.status()).toBe(200);
+    await expect (respText).toContain('Weaver');
+    console.log(respText); */
+    apiRequest.getUserById(2);
+
+});
 
 

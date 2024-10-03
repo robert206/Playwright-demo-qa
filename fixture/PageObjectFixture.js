@@ -16,10 +16,12 @@ import { SelectMenuPage } from '../page-objects/SelectMenuPage.js';
 import { InteractionsPage } from '../page-objects/InteractionsPage.js';
 import { DroppablePage } from '../page-objects/DroppablePage.js';
 import { BookStorePage } from '../page-objects/BookStorePage.js';
+import { APIRequest } from '../page-objects/APIRequest.js';
 
 
 //to je kot pageobject ki vse pageobjecte ostale zajema in potem ne rabiš v vsakem testu posebej klicat newNekPage,
 // prav tako ostale importe lahko narediš tu . pa greš na page. kot beforeEach,afterEach lahko tu dodaš itd.
+// Tak delaj kot si za francoze
 //import { HomePage } from '../page-objects/HomePage.js';
 //import { TextBoxPage } from '../page-objects/TextBoxPage.js';
 export const test = base.extend({
@@ -95,6 +97,10 @@ export const test = base.extend({
 
     bookStorePage : async ( {page}, use) => {
         await use (new BookStorePage(page));
+    },
+
+    apiRequest : async ( {page}, use) => {
+        await use (new APIRequest(page));
     }
 
 });
