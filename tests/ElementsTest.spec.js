@@ -1,9 +1,11 @@
 // @ts-check
 // @ts-ignore
 const { strict } = require('assert');
-const {test, expect} = require('../fixture/PageObjectFixture');
+const {test,expect} = require('../fixture/PageObjectFixture');
+const { create } = require('domain');
+const { APIRequest } = require('../page-objects/APIRequest');
 //const { HomePage } = require('../page-objects/HomePage');
-const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
+//const dataset = JSON.parse(JSON.stringify(require("../test-data/TablesData.json")));
 
 test('0 1 TextBox page', async({page,homePage,textBoxPage}) => {
 
@@ -311,6 +313,7 @@ test ('3 0 Interactions-Sortable', async ({page,homePage,interactionsPage}) => {
     page.waitForLoadState('domcontentloaded');
 
     await expect(interactionsPage.sortableListElements).toHaveCount(6);
+    
     const sourceL = await interactionsPage.sortableListElements.nth(0);
     const destL = await interactionsPage.sortableListElements.nth(1);
     //await sourceL.dragTo(destL); // this official way doesnt work ..doesnt drag shit 
@@ -383,25 +386,21 @@ test ('3 3 Interactions - Droppable', async ({page,homePage,droppablePage,intera
 
 });
 
-
+// 
 test ('4 Book Store', async ({page,homePage,bookStorePage}) => {
     await homePage.BookStore.click();
     await bookStorePage.loginLink.first().click();
     await expect(page.getByText('Login in Book Store', { exact:true})).toBeVisible();
-
     
-});
+ });
 
 
 test ('API GET', async ({request, apiRequest}) => {
-    /* const resp = await request.get('https://reqres.in/api/users/2');
-    const respText = await resp.text();
-
-    await expect (resp.status()).toBe(200);
-    await expect (respText).toContain('Weaver');
-    console.log(respText); */
-    apiRequest.getUserById(2);
-
+    //pass 'request' builtin into method or error
+    //await apiRequest.getUserById(2,request); //GET
+    await apiRequest.createNewUser(request);
 });
+
+
 
 
