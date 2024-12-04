@@ -18,7 +18,6 @@ class CheckBoxPage {
 
 
     checkAllFolders = async (index,folderName) => {
-        console.log('dsfd ',await this.checkBoxFolders.nth(index).textContent());
         //check if nth element has expected text
         const actualFolderName = await this.checkBoxFolders.nth(index).textContent();
         expect (actualFolderName).toEqual(folderName);
