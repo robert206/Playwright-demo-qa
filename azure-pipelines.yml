@@ -21,7 +21,7 @@ steps:
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
   inputs:
-    PathtoPublish: '${SystemDefaultDirectory)/test-results'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/'
     ArtifactName: 'TestResults'
   displayName: 'Test Results'
 
