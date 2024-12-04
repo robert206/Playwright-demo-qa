@@ -10,10 +10,18 @@ pool: MyPool
 
 steps:
 - checkout:  self
-  displayName: 'Checkining out repo'
+  displayName: 'Checking out repo'
 
 - script: |
     npm install
     npx playwright install 
     npx playwright test --project=firefox
   displayName: 'Install dependencies and run playwright tests'
+
+- task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
+  inputs:
+    PathtoPublish: '${SystemDefaultDirectory)/test-results'
+    ArtifactName: 'TestResults'
+  displayName: 'Test Results'
+
